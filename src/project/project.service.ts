@@ -23,9 +23,12 @@ export class ProjectService {
     return this.projectRepository.findOne(id, { relations: ['employee'] });
   }
 
-  update(id: number, updateProjectInput: UpdateProjectInput) {
+  async update(id: number, updateProjectInput: UpdateProjectInput) {
     let project = this.projectRepository.create(updateProjectInput);
-    return this.projectRepository.update({ id: project.id }, project);
+    let up = await this.projectRepository.update({ id: project.id }, project);
+    if (up.affected === 1) {
+      return project;
+    }
   }
 
   async remove(id: number) {
