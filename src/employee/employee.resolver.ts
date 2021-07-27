@@ -1,3 +1,4 @@
+import { UpdateEmployeeInput } from './dto/update-employee.dto';
 import { EmployeeCreateDto } from './dto/create-employee.input';
 import {
   Args,
@@ -31,5 +32,14 @@ export class EmployeeResolver {
   @ResolveField(() => Project)
   project(@Parent() employee: Employee) {
     return this.employeeService.getProject(employee.projectId);
+  }
+  @Mutation(() => Employee)
+  updateEmployee(@Args('updateEmployee') updateEmployee: UpdateEmployeeInput) {
+    return this.employeeService.update(updateEmployee.id, updateEmployee);
+  }
+
+  @Mutation(() => Employee)
+  deleteEmployee(@Args('id') id: number) {
+    return this.employeeService.delete(id);
   }
 }
